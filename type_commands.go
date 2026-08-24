@@ -2,13 +2,7 @@ package main
 
 import (
 	"errors"
-
-	"github.com/thuanvo2405/Gator/internal/config"
 )
-
-type state struct {
-	cfg *config.Config
-}
 
 type command struct {
 	name string
