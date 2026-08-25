@@ -3,15 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+
+	"github.com/thuanvo2405/Gator/internal/database"
 )
 
-func handlerFollowing(s *state, cmd command) error {
-	current_user, err := s.db.GetUser(context.Background(), s.cfg.Username)
-	if err != nil {
-		return fmt.Errorf("Fail fetch current user %v", err)
-	}
-
-	feedFollows, err := s.db.GetFeedFollowsForUser(context.Background(), current_user.ID)
+func handlerFollowing(s *state, cmd command, user database.User) error {
+	feedFollows, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		return fmt.Errorf("couldn't get feed follows: %w", err)
 	}
@@ -21,7 +18,7 @@ func handlerFollowing(s *state, cmd command) error {
 		return nil
 	}
 
-	fmt.Printf("Feed follows for user %s:\n", current_user.Name)
+	fmt.Printf("Feed follows for user %s:\n", user.Name)
 	for _, ff := range feedFollows {
 		fmt.Printf("- '%s'\n", ff.FeedName)
 	}
